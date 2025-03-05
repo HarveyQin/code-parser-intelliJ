@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.17.3'
+}
+
+group = 'com.harveyqin.codeparser'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+// Configure Gradle IntelliJ Plugin
+// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+intellij {
+    version = '2023.2.6'
+    plugins = ['java']
+}
+
+dependencies {
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+}
+
+tasks {
+    runIde {
+        jvmArgs = ['-Xms256m', '-Xmx1024m', '-XX:ReservedCodeCacheSize=240m', '-XX:+UseG1GC']
+    }
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+tasks.patchPluginXml {
+    sinceBuild = '232'
+    untilBuild = '242.*'
+}
+
+tasks.signPlugin {
+    certificateChain = System.getenv('CERTIFICATE_CHAIN')
+    privateKey = System.getenv('PRIVATE_KEY')
+    password = System.getenv('PRIVATE_KEY_PASSWORD')
+}
+
+tasks.publishPlugin {
+    token = System.getenv('PUBLISH_TOKEN')
+}

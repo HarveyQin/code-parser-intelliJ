@@ -1,0 +1,20 @@
+<idea-plugin>
+    <id>com.example.plugin</id>
+    <name>RiSE Lab Code Parser</name>
+    <version>1.0</version>
+    <vendor email="hqin5@stevens.edu">Hanbin Qin</vendor>
+
+    <actions>
+<!--        <action id="ModifyJavaAST" class="com.example.plugin.ModifyJavaASTAction" text="Modify Java AST">-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="last"/>-->
+<!--        </action>-->
+        <action id="ModifyJavaTestAST" class="com.example.plugin.ModifyJavaTestASTAction" text="Modify Java Test AST">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="ModifyAllTestFilesAction" class="com.example.plugin.ModifyAllTestFilesAction" text="Modify All Test Files" description="Modify all test files in the project and save results">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T"/>
+    </action>
+    </actions>
+</idea-plugin>
