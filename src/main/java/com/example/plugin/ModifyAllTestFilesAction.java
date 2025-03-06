@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ModifyAllTestFilesAction extends AnAction {
-    private static final String projectName = "pdfbox";
+    private static final String projectName = "commons-dbcp";
     private static final String modifiedResultsPath = "E:\\Files\\Mock_Project\\ML\\parserResult\\"+projectName+"\\parsed_tests_stage1";
     private static final String xlsxOutputPath = "E:\\Files\\Mock_Project\\ML\\parserResult\\"+projectName+"\\object_instantiations.xlsx";
     private static final String testFilesCsvPath = "E:\\Files\\Mock_Project\\ML\\parserResult\\"+projectName+"\\test_files_list.csv";
@@ -112,6 +112,16 @@ public class ModifyAllTestFilesAction extends AnAction {
 
     private void prepareCSVFile() {
         File csvFile = new File(testFilesCsvPath);
+
+        // 确保目标文件所在的目录存在
+        File parentDir = csvFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            if (!parentDir.mkdirs()) {
+                logger.severe("Failed to create directory: " + parentDir.getAbsolutePath());
+                return;
+            }
+        }
+
         if (csvFile.exists() && !csvFile.delete()) {
             logger.warning("Failed to delete existing CSV file: " + testFilesCsvPath);
         }
@@ -454,6 +464,15 @@ public class ModifyAllTestFilesAction extends AnAction {
     private void saveModifiedFile(VirtualFile originalFile, String modifiedContent) {
         String newFilePath = modifiedResultsPath + "\\" + originalFile.getName();
         File newFile = new File(newFilePath);
+
+        // 确保目标文件所在的目录存在
+        File parentDir = newFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            if (!parentDir.mkdirs()) {
+                logger.severe("Failed to create directory: " + parentDir.getAbsolutePath());
+                return;
+            }
+        }
 
         try (FileWriter writer = new FileWriter(newFile)) {
             writer.write(modifiedContent);
